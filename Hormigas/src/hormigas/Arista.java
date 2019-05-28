@@ -28,6 +28,19 @@ public class Arista {
         return nombre;
     }   
     
+    //setters
+    public void setFeromona(double feromona) {
+        this.feromona = feromona;
+    }
+
+    public void setDistancia(float distancia) {
+        this.distancia = distancia;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    
     //constructor
     public Arista(String nombre, double feromona, float distancia) {
         this.nombre = nombre;
