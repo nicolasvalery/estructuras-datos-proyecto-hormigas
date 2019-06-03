@@ -12,7 +12,7 @@ package hormigas;
 public class Arista {
     
     double feromona; //todo tiene que ser double por alguna puta razon
-    float distancia;
+    int distancia;
     String nombre;
 
     //getters
@@ -20,7 +20,7 @@ public class Arista {
         return feromona;
     }
 
-    public float getDistancia() {
+    public int getDistancia() {
         return distancia;
     }
 
@@ -28,21 +28,8 @@ public class Arista {
         return nombre;
     }   
     
-    //setters
-    public void setFeromona(double feromona) {
-        this.feromona = feromona;
-    }
-
-    public void setDistancia(float distancia) {
-        this.distancia = distancia;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-    
     //constructor
-    public Arista(String nombre, double feromona, float distancia) {
+    public Arista(String nombre, double feromona, int distancia) {
         this.nombre = nombre;
         this.feromona = feromona;
         this.distancia = distancia;

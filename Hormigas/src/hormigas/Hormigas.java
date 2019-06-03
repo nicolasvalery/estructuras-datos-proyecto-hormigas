@@ -28,9 +28,10 @@ public class Hormigas {
         int o = 0;
         double feromonaInicial = 1 / ciudades;
         Algoritmos algoritmos = new Algoritmos();
+        Grafo g = new Grafo();
         
         //valores de distancia se pueden alterar para probar otras probabilidades
-        Arista a = new Arista("a", feromonaInicial, 1);
+        /*Arista a = new Arista("a", feromonaInicial, 1);
         Arista b = new Arista("b", feromonaInicial, 2);
         Arista c = new Arista("c", feromonaInicial, 3);
         Arista d = new Arista("d", feromonaInicial, 4);
@@ -45,7 +46,7 @@ public class Hormigas {
         aristas.add(e);
         
         //i = numero de veces que corremos la probabilidad, por razones de prueba solamente, este for no hace falta
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 100; i++) {
             
             aux = algoritmos.movimiento(aristas); //llamamos el calculo
             
@@ -75,9 +76,10 @@ public class Hormigas {
         System.out.println(k);
         System.out.println(m);
         System.out.println(n);
-        System.out.println(o);
-        
-        
+        System.out.println(o);*/
+        g.insertarVertice();
+        g.distanciaAristas();
+        g.imprimir();
     }
     
 }
