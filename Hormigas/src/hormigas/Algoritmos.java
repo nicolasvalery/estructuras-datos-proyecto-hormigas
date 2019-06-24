@@ -13,22 +13,22 @@ import java.util.ArrayList;
 public class Algoritmos {
     
     //valores default de alpha, beta, y p, en el final tendran que tener el chance de ser modificados
-    int a = 1;
-    int b = 2;
+    float a = 1;
+    float b = 2;
     double p = 0.5;
     
     //recibe la lista de aristas
-    /*String movimiento(ArrayList input){
+    Arista movimiento(ArrayList<Arista> input){
         
         ArrayList<Arista> aristas = input; //se convierten aristas de nuevo porque al pasar input los objetos Arista se convierten en Object???
-        ArrayList<Double> factor = new ArrayList<>(); //para guardar las probabilidades para cada arista
+        ArrayList<Float> factor = new ArrayList<>(); //para guardar las probabilidades para cada arista
         int size = aristas.size(); //veces que se necesita correr cada for
         
         //variedad de auxiliares
         Arista auxArista;
-        double numerador = 0;
+        float numerador = 0;
         double denominador = 0;        
-        double calculo = 0;
+        float calculo = 0;
         int seleccion = -1;
         int posicion = 0;
         double auxFeromona = 0;
@@ -41,7 +41,7 @@ public class Algoritmos {
             auxFeromona = auxArista.getFeromona();
             auxDistancia = 1 / auxArista.getDistancia(); //calcula q/distancia, pero q siempre va a ser 1
             
-            numerador = Math.pow(auxFeromona, a) * Math.pow(auxDistancia, b); //corresponde a t(r,s)^alpha * n(r,s)^beta
+            numerador = (float)(Math.pow(auxFeromona, a) * Math.pow(auxDistancia, b)); //corresponde a t(r,s)^alpha * n(r,s)^beta
             factor.add(numerador); //se guarda en arraylist
             denominador = denominador + numerador; //va armando lo que corresponde a sumatoria r(r,u)^alpha * n(r,u)^beta de todos los viajes posibles
             
@@ -49,12 +49,12 @@ public class Algoritmos {
         
         for (int i = 0; i < size; i++) {
             
-            calculo = factor.get(i) / denominador; //a cada numerador lo divide por el denominador que es el mismo para todas las aristas
+            calculo = (float)(factor.get(i) / denominador); //a cada numerador lo divide por el denominador que es el mismo para todas las aristas
             factor.set(i, calculo); //y se guardan, sobreescribiendo los numeradores que ya no hacen falta
             
         }
         
-        calculo = Math.random(); //reusamos la variable para obtener un numero aleatorio entre 0 y 1
+        calculo = (float)(Math.random()); //reusamos la variable para obtener un numero aleatorio entre 0 y 1
         
         //esta parte determina a cual arista corresponde el valor aleatorio generado
         while(seleccion == -1){
@@ -70,32 +70,47 @@ public class Algoritmos {
         }
         
         auxArista = aristas.get(seleccion); //recoge la arista correspondiente a la seleccion
-        String resultado = auxArista.getNombre();
-        
-        return resultado;
+        return auxArista;
         
     }
     
-    ArrayList evaporacion(ArrayList input){
+    double actualizacion(Arista input){ //la actualizacion de la cantidad de feromonas por incremento
         
-        ArrayList<Arista> aristas = input;
-        Arista auxArista;
+        double aux = input.getFeromona();
+        aux = aux + (1.0 / input.getDistancia()); //corresponde a t(r,s) = t(r,s) + Q/L
+        return aux;
+        
+    }
+    
+    double evaporacion(Arista input){ //la evaporacion de las feromonas
+                
         double auxFeromona;
-        int size = aristas.size();
         double constanteEvaporacion = 1 - p; //el factor necesario no es p sino 1 - p
         
-        for (int i = 0; i < size; i++) {
-            
-            auxArista = aristas.get(i);
-            auxFeromona = auxArista.getFeromona();
-            auxFeromona = auxFeromona * constanteEvaporacion; //corresponde a t(r,s) = (1-p) * t(r,s)
-            auxArista.setFeromona(auxFeromona); //se sobreescribe la feromona en la arista con el nuevo valor
-            aristas.set(i, auxArista); //y se inserta la arista editada en el arraylist
-            
-        }
+        auxFeromona = input.getFeromona();
+        auxFeromona = auxFeromona * constanteEvaporacion; //corresponde a t(r,s) = (1-p) * t(r,s)
+        return auxFeromona;
         
-        return aristas;
-        
-    }*/
+    }
     
+    //setters
+    public void setA(int a) {
+        this.a = a;
+    }
+
+    public void setB(int b) {
+        this.b = b;
+    }
+
+    public void setP(double p) {
+        this.p = p;
+    }
+    
+    //constructor
+    public Algoritmos(float alpha, float beta, double rho) {
+        this.a = alpha;
+        this.b = beta;
+        this.p = rho;
+    }    
+                
 }

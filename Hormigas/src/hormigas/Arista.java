@@ -11,7 +11,7 @@ package hormigas;
  */
 public class Arista {
     
-    double feromona; //todo tiene que ser double por alguna puta razon
+    double feromona;
     float distancia;
     String inicio;
     String fin;
