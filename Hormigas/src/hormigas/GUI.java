@@ -5,6 +5,12 @@
  */
 package hormigas;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 /**
  *
  * @author Nico
@@ -16,8 +22,22 @@ public class GUI extends javax.swing.JFrame {
      */
     public GUI() {
         initComponents();
+    }   
+    
+    //inicializacion de variables
+    boolean close = false;
+    String[] auxNombres = new String[0];
+    float[][] auxDistancias;
+    float[] auxDistanciasSingular;
+    Arista[][] arista;
+    
+    public void actualizarNodos(int numNodos){
+        jComboBoxNodos.removeAllItems();
+            for (int i = 0; i < numNodos; i++) {
+                jComboBoxNodos.addItem(arista[i][0].getInicio());
+            }
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,25 +47,434 @@ public class GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-
-        jButton1.setText("jButton1");
+        jOptionPane1 = new javax.swing.JOptionPane();
+        jButtonNuevoMapa = new javax.swing.JButton();
+        jSpinnerNumCiudad = new javax.swing.JSpinner();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jButtonAgregar = new javax.swing.JButton();
+        jButtonEliminar = new javax.swing.JButton();
+        jButtonGuardar = new javax.swing.JButton();
+        jButtonCargar = new javax.swing.JButton();
+        jButtonSimulacion = new javax.swing.JButton();
+        jButtonSalir = new javax.swing.JButton();
+        jComboBoxNodos = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jButtonNuevoMapa.setText("Nuevo mapa");
+        jButtonNuevoMapa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNuevoMapaActionPerformed(evt);
+            }
+        });
+
+        jSpinnerNumCiudad.setModel(new javax.swing.SpinnerNumberModel(4, 4, 20, 1));
+
+        jLabel1.setText("Grado de importancia de la feromona (alpha)");
+
+        jLabel2.setText("Grado de visibilidad de la ciudad (beta)");
+
+        jLabel3.setText("Factor de evaporacion (rho)");
+
+        jTextField1.setText("1");
+
+        jTextField2.setText("2");
+
+        jTextField3.setText("0.5");
+
+        jLabel4.setText("Numero de ciudades");
+
+        jButtonAgregar.setText("Agregar ciudad");
+        jButtonAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAgregarActionPerformed(evt);
+            }
+        });
+
+        jButtonEliminar.setText("Eliminar ciudad");
+        jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEliminarActionPerformed(evt);
+            }
+        });
+
+        jButtonGuardar.setText("Guardar mapa");
+        jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGuardarActionPerformed(evt);
+            }
+        });
+
+        jButtonCargar.setText("Cargar mapa");
+        jButtonCargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCargarActionPerformed(evt);
+            }
+        });
+
+        jButtonSimulacion.setText("Nueva simulacion");
+
+        jButtonSalir.setText("Salir");
+        jButtonSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSalirActionPerformed(evt);
+            }
+        });
+
+        jComboBoxNodos.setModel(new javax.swing.DefaultComboBoxModel<>(auxNombres));
+
+        jLabel5.setText("SISTEMA HORMIGA");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButtonGuardar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonCargar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jSpinnerNumCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonNuevoMapa))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(jLabel5)
+                                                .addComponent(jLabel1))
+                                            .addGap(22, 22, 22)))
+                                    .addGap(6, 6, 6)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+                                        .addComponent(jTextField2)))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButtonAgregar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonEliminar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
+                                .addComponent(jComboBoxNodos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButtonSimulacion)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonSalir)))
+                        .addGap(34, 34, 34))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(jLabel5)
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jSpinnerNumCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonNuevoMapa))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonAgregar)
+                    .addComponent(jButtonEliminar)
+                    .addComponent(jComboBoxNodos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonGuardar)
+                    .addComponent(jButtonCargar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonSimulacion)
+                    .addComponent(jButtonSalir))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonNuevoMapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNuevoMapaActionPerformed
+        //ingresar valores de un grafo nuevo
+        
+        //matriz de adyacencia de dimension escogida por el usuario entre 4 y 20 inclusive
+        arista = new Arista[(Integer) jSpinnerNumCiudad.getValue()][(Integer) jSpinnerNumCiudad.getValue()];
+       
+        //abre ventana de dialogo
+        NuevoMapa nuevo = new NuevoMapa(this, true, arista.length, false);
+        nuevo.setVisible(true);
+        
+        //variables auxiliares para manipular informacion de dialogo
+        auxNombres = new String[arista.length];
+        auxDistancias = new float[arista.length][arista.length];
+        
+        //mientras que permanezca abierta la otra ventana
+        while (close == false) {
+            
+            //retraso del bucle para minimizar esfuerzo computacional
+            try {
+                Thread.sleep(500);
+            } catch(InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+            
+            //recibiendo informacion de la ventana de dialogo
+            close = nuevo.isClose();            
+            auxNombres = nuevo.getNombres();
+            auxDistancias = nuevo.getDistanciasMatriz();
+            
+        }
+        
+        //resetear valor
+        close = false;
+        
+        //recorrer la matriz de adyacencia
+        for (int i = 0; i < arista.length; i++) {
+            for (int j = 0; j < arista.length; j++) {
+                //instanciar cada elemento de la matriz con los valores ingresados por el usuario
+                arista[i][j] = new Arista(auxNombres[i], auxNombres[j], (1.0 / arista.length), auxDistancias[i][j]);
+            }
+        }
+        
+        //actualizacion del listado de nodos
+        actualizarNodos(auxNombres.length);
+        
+    }//GEN-LAST:event_jButtonNuevoMapaActionPerformed
+
+    private void jButtonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAgregarActionPerformed
+        //agrega un nodo nuevo al grafo mediante la matriz de adyacencia
+        
+        //solo funciona si el grafo tiene entre 4 y 19 nodos
+        if (arista.length > 3 && arista.length < 20) {
+            
+            //abrimos el dialogo de insercion de datos, esta vez especificando que es para agregar una sola ciudad al grafo existente
+            NuevoMapa nuevo = new NuevoMapa(this, true, arista.length, true);
+            nuevo.setVisible(true);
+            
+            //mientras que permanezca abierta la otra ventana
+            while (close == false) {
+                
+                //retraso del bucle para minimizar esfuerzo computacional
+                try {
+                    Thread.sleep(500);
+                } catch(InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+                
+                //recibiendo informacion de la ventana de dialogo
+                close = nuevo.isClose();            
+                auxNombres = nuevo.getNombres();
+                auxDistanciasSingular = nuevo.getDistanciasSingular();
+
+            }
+            
+            //resetear valor, variables auxiliares que nos permitiran editar el grafo ya existente
+            close = false;        
+            Arista[][] auxArista = new Arista[arista.length + 1][arista.length + 1];
+            double auxferomona = 1.0 / auxArista.length;
+            
+            //como las ciudades se agregan a los extremos del grafo, todos los valores de la matriz de adyacencia que no pertenezcan a los extremos son iguales al grafo ya existente
+            for (int i = 0; i < arista.length; i++) {
+                for (int j = 0; j < arista.length; j++) {
+                    auxArista[i][j] = arista[i][j];
+                    //excepto las feromonas que dependen del numero de nodos
+                    auxArista[i][j].setFeromona(auxferomona);
+                }
+            }
+            
+            //dos casos especiales en los extremos
+            for (int i = 0; i < auxArista.length; i++) {
+                for (int j = 0; j < auxArista.length; j++) {
+                    //si estamos en el extremo 'sur' de la matriz
+                    if ((i == arista.length) && (j != arista.length)) {
+                        auxArista[i][j] = new Arista(auxNombres[0], arista[j][0].getInicio(), auxferomona, auxDistanciasSingular[j]);
+                    //si estamos en el extremo 'este' de la matriz    
+                    }else if ((j == arista.length) && (i != arista.length)) {
+                        auxArista[i][j] = new Arista(arista[0][i].getFin(), auxNombres[0], auxferomona, auxDistanciasSingular[i]);
+                    }
+                }
+            }
+            
+            //ultimo caso, la esquina extrema de la matriz
+            auxArista[auxArista.length - 1][auxArista.length - 1] = new Arista(auxArista[auxArista.length - 1][0].getInicio(), auxArista[auxArista.length - 1][0].getInicio(), 1.0 / auxArista.length, -1);
+            
+            //al haber tratado todos los casos, la matriz de adyacencia nueva es guardada
+            arista = auxArista;
+            
+            //actualizacion del listado de nodos
+            actualizarNodos(arista.length);
+            
+        }        
+                
+    }//GEN-LAST:event_jButtonAgregarActionPerformed
+
+    private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
+        //elimina un nodo del grafo mediante la manipulacion de la matriz de adyacencia
+        
+        //recibe el nodo seleccionado del listado para eliminar
+        int aux = jComboBoxNodos.getSelectedIndex();
+        
+        //asegura que tengamos al menos 4 nodos al terminar la eliminacion
+        if (arista.length > 4) {
+            
+            //matriz auxiliar para la manipulacion de la matriz de adyacencia
+            Arista[][] auxArista = new Arista[arista.length - 1][arista.length - 1];
+            
+            //recorremos toda la matriz
+            for (int i = 0; i < arista.length; i++) {
+                for (int j = 0; j < arista.length; j++) {
+                    
+                    //5 casos
+                    
+                    //si estamos por debajo de los valores relacionados al nodo que eliminaremos tanto en el sentido horizontal como la vertical
+                    if ((i < aux) && (j < aux)) {
+                        auxArista[i][j] = arista[i][j];
+                    //si estamos por debajo de los valores relacionados al nodo que eliminaremos tanto en el sentido vertical, pero no la horizontal
+                    }if ((i > aux) && (j < aux)) {
+                        auxArista[i - 1][j] = arista[i][j];
+                    //si estamos por debajo de los valores relacionados al nodo que eliminaremos tanto en el sentido horizontal, pero no la vertical
+                    }if ((i < aux) && (j > aux)) {
+                        auxArista[i][j - 1] = arista[i][j];
+                    //si NO estamos por debajo de los valores relacionados al nodo que eliminaremos tanto en el sentido horizontal como la vertical
+                    }if ((i > aux) && (j > aux)) {
+                        auxArista[i - 1][j - 1] = arista[i][j];
+                    }
+                    //al ultimo caso, al acceder uno de los valores directamente relacionado con el nodo a eliminar, no requiere ninguna operacion
+
+                }
+            }
+            
+            //al concluir la construccion de una nueva matriz de adyacencia sin los valores relacionados al nodo por eliminar, se sobreescribe la matriz y aexistente
+            arista = auxArista;
+            
+            //el valor de feromonas iniciales depende del numero de nodos, asi que recorremos la matriz para corregrirlos
+            for (int i = 0; i < arista.length; i++) {
+                for (int j = 0; j < arista.length; j++) {
+                    arista[i][j].setFeromona(1.0 / arista.length);
+                }
+            }
+            
+            //actualizacion del listado de nodos
+            actualizarNodos(arista.length);
+            
+        }        
+        
+    }//GEN-LAST:event_jButtonEliminarActionPerformed
+
+    private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
+        //guarda el grafo en un archivo .txt
+        
+        //para capturar los varios IOException
+        try {
+            
+            //inicializacion del BufferedWriter
+            FileWriter writer = new FileWriter("grafo.txt", false);
+            BufferedWriter bufferedWriter = new BufferedWriter(writer);            
+            
+            //la primera linea del archivo corresponde a las dimensiones de la matriz de adyacencia
+            bufferedWriter.write(String.valueOf(arista.length));
+            bufferedWriter.newLine();
+            
+            //los nombres de los nodos se guardan en lineas separadas
+            for (int i = 0; i < arista.length; i++) {
+                bufferedWriter.write(arista[0][i].getFin());
+                bufferedWriter.newLine();
+            }
+            
+            //las distancias entre los nodos se guardan en lineas separadas
+            for (int i = 0; i < arista.length; i++) {
+                for (int j = 0; j < arista.length; j++) {
+                    bufferedWriter.write(Float.toString(arista[i][j].getDistancia()));
+                    bufferedWriter.newLine();
+                }
+            }
+            
+            //se cierra el BufferedWriter
+            bufferedWriter.close();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+ 
+    }//GEN-LAST:event_jButtonGuardarActionPerformed
+
+    private void jButtonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCargarActionPerformed
+        //abre un archivo .txt en el que previamente se ha guardado un grafo
+        
+        //para capturar los varios IOException
+        try {
+            
+            //abrimos un BufferedReader
+            FileReader reader = new FileReader("grafo.txt");
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            
+            //leemos la dimension de la matriz de adyacencia y la usamos para inicializar nuestras variables auxiliares
+            int aux = Integer.parseInt(bufferedReader.readLine());
+            auxNombres = new String[aux];
+            auxDistancias = new float[aux][aux];
+            arista = new Arista[aux][aux];
+            
+            //guardamos los nombres de los nodos del grafo
+            for (int i = 0; i < aux; i++) {
+                auxNombres[i] = bufferedReader.readLine();
+            }
+            
+            //guardamos los valores de distancia entre los nodos
+            for (int i = 0; i < aux; i++) {
+                for (int j = 0; j < aux; j++) {
+                    auxDistancias[i][j] = Float.parseFloat(bufferedReader.readLine());
+                }
+            }            
+            
+            //insertamos los valores guardados en una nueva matriz de adyacencia
+            for (int i = 0; i < arista.length; i++) {
+                for (int j = 0; j < arista.length; j++) {
+                    arista[i][j] = new Arista(auxNombres[i], auxNombres[j], (1 / arista.length), auxDistancias[i][j]);
+                }
+            }
+            
+            //actualizacion del listado de nodos
+            actualizarNodos(auxNombres.length);
+ 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButtonCargarActionPerformed
+
+    private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jButtonSalirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -83,6 +512,23 @@ public class GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonAgregar;
+    private javax.swing.JButton jButtonCargar;
+    private javax.swing.JButton jButtonEliminar;
+    private javax.swing.JButton jButtonGuardar;
+    private javax.swing.JButton jButtonNuevoMapa;
+    private javax.swing.JButton jButtonSalir;
+    private javax.swing.JButton jButtonSimulacion;
+    private javax.swing.JComboBox<String> jComboBoxNodos;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JOptionPane jOptionPane1;
+    private javax.swing.JSpinner jSpinnerNumCiudad;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }

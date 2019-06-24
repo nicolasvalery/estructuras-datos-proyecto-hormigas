@@ -12,12 +12,13 @@ import java.util.ArrayList;
  */
 public class Algoritmos {
     
-    //valores default de alpha y beta, en el final tendran que tener el chance de ser modificados
+    //valores default de alpha, beta, y p, en el final tendran que tener el chance de ser modificados
     int a = 1;
     int b = 2;
+    double p = 0.5;
     
     //recibe la lista de aristas
-    String movimiento(ArrayList input){
+    /*String movimiento(ArrayList input){
         
         ArrayList<Arista> aristas = input; //se convierten aristas de nuevo porque al pasar input los objetos Arista se convierten en Object???
         ArrayList<Double> factor = new ArrayList<>(); //para guardar las probabilidades para cada arista
@@ -31,7 +32,7 @@ public class Algoritmos {
         int seleccion = -1;
         int posicion = 0;
         double auxFeromona = 0;
-        int auxDistancia = 1;        
+        float auxDistancia = 1;        
         
         for (int i = 0; i < size; i++) {
             
@@ -74,5 +75,27 @@ public class Algoritmos {
         return resultado;
         
     }
+    
+    ArrayList evaporacion(ArrayList input){
+        
+        ArrayList<Arista> aristas = input;
+        Arista auxArista;
+        double auxFeromona;
+        int size = aristas.size();
+        double constanteEvaporacion = 1 - p; //el factor necesario no es p sino 1 - p
+        
+        for (int i = 0; i < size; i++) {
+            
+            auxArista = aristas.get(i);
+            auxFeromona = auxArista.getFeromona();
+            auxFeromona = auxFeromona * constanteEvaporacion; //corresponde a t(r,s) = (1-p) * t(r,s)
+            auxArista.setFeromona(auxFeromona); //se sobreescribe la feromona en la arista con el nuevo valor
+            aristas.set(i, auxArista); //y se inserta la arista editada en el arraylist
+            
+        }
+        
+        return aristas;
+        
+    }*/
     
 }
